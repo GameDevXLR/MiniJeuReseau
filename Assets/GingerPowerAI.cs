@@ -114,7 +114,7 @@ public class GingerPowerAI : MonoBehaviour
 	public void FindAndCaptureACity()
 	{
 		Debug.Log ("trying to capture a free city");
-		int i = Random.Range (0, GameManager.instance.cities.Length - 1);
+		int i = Random.Range (0, GameManager.instance.cities.Length);
 		if (!GameManager.instance.cities [i].isTaken) 
 		{
 			GameManager.instance.cities [i].CaptureThisCity ();
