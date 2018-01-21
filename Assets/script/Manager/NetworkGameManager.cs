@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.Networking.Match;
 
 public class NetworkGameManager : NetworkBehaviour {
 
@@ -14,6 +15,16 @@ public class NetworkGameManager : NetworkBehaviour {
 	[SyncVar(hook = "ActuPlayerTurn")] public bool isPlayer1Turn;
 	public Material[] matPlayerTurn;
 	public Material[] matOpponentTurn;
+	public bool gingerPowerAI;
+
+
+	public void ActivateTheAmazingGingerAI()
+	{
+		gingerPowerAI = true;
+		BeginTheGame ();
+		NATTraversal.NetworkManager.singleton.StopMatchMaker ();
+
+	}
 
 	//référencement de la fonction static.
 	void Awake()
@@ -64,9 +75,11 @@ public class NetworkGameManager : NetworkBehaviour {
 		GameHasBegun = true;
 		StartCoroutine(GameManager.instance.ShowInfo("You play first!", 1f));
 		GameManager.instance.PlateauMeshR.materials = matPlayerTurn;
-		GameManager.instance.timeLeftSliderP1.gameObject.SetActive(true);
-		GameManager.instance.StartCoroutine ("ActivateTimer");
-
+		if (!gingerPowerAI) {
+			
+			GameManager.instance.timeLeftSliderP1.gameObject.SetActive (true);
+			GameManager.instance.StartCoroutine ("ActivateTimer");
+		}
 	}
 
 	//appeler chez le serveur pour changer le tour.
@@ -74,23 +87,28 @@ public class NetworkGameManager : NetworkBehaviour {
 	public void ChangePlayerTurn()
 	{
 		isPlayer1Turn = !isPlayer1Turn;
-		if (isPlayer1Turn) 
-		{
-			GameManager.instance.timeLeftSliderP1.gameObject.SetActive(true);
-			GameManager.instance.timeLeftSliderP2.gameObject.SetActive(false);
+		GameManager.instance.isPlayer1Turn = !isPlayer1Turn;
+
+		if (!gingerPowerAI) {
+		if (isPlayer1Turn) {
+			
+			GameManager.instance.timeLeftSliderP1.gameObject.SetActive (true);
+			GameManager.instance.timeLeftSliderP2.gameObject.SetActive (false);
 
 			GameManager.instance.StopCoroutine ("ActivateTimer");
 			GameManager.instance.timeLeftSliderP2.value = GameManager.instance.timeLeftSliderP2.maxValue;
 			GameManager.instance.StartCoroutine ("ActivateTimer");
-		} else 
-		{
-			GameManager.instance.timeLeftSliderP1.gameObject.SetActive(false);
-			GameManager.instance.timeLeftSliderP2.gameObject.SetActive (true);
 
-			GameManager.instance.StopCoroutine ("ActivateTimer");
-			GameManager.instance.timeLeftSliderP1.value = GameManager.instance.timeLeftSliderP1.maxValue;
-			GameManager.instance.StartCoroutine ("ActivateTimer");
+		} else {
+				GameManager.instance.timeLeftSliderP1.gameObject.SetActive (false);
+				GameManager.instance.timeLeftSliderP2.gameObject.SetActive (true);
+
+				GameManager.instance.StopCoroutine ("ActivateTimer");
+				GameManager.instance.timeLeftSliderP1.value = GameManager.instance.timeLeftSliderP1.maxValue;
+				GameManager.instance.StartCoroutine ("ActivateTimer");
+			}
 		}
+
 		GameManager.instance.ChangePositionPossible (-1);
 		if (isServer) 
 		{
@@ -101,6 +119,10 @@ public class NetworkGameManager : NetworkBehaviour {
 			} else 
 			{
 				GameManager.instance.PlateauMeshR.materials= matOpponentTurn;
+				if (gingerPowerAI) 
+				{
+					DelayAITurn ();
+				}
 
 			}
 		} else 
@@ -116,6 +138,20 @@ public class NetworkGameManager : NetworkBehaviour {
 
 			}
 		}
+
+
+
+	}
+
+	public void DelayAITurn()
+	{
+		StartCoroutine (DelayAITurnProcedure ());
+	}
+
+	IEnumerator DelayAITurnProcedure()
+	{
+		yield return new WaitForSecondsRealtime (Random.Range (1f, 3f));
+		GameManager.instance.GetComponent<GingerPowerAI> ().PlayOneTurn ();
 
 	}
 

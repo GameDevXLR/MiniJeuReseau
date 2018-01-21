@@ -48,6 +48,9 @@ public class GameManager : MonoBehaviour {
 	public Slider timeLeftSliderP1;
 	public Slider timeLeftSliderP2;
 
+	public Button ActivateGingerPowerAIBtn;
+	public GingerPowerAI GPAI;
+
     private void Awake()
     {
         if (instance == null)
@@ -63,6 +66,11 @@ public class GameManager : MonoBehaviour {
         else
             Destroy(gameObject);
     }
+
+	public void PlayAgainstGPAI()
+	{
+		GPAI.enabled = true;
+	}
 
 	public void ChangeCursor(bool isOver)
 	{

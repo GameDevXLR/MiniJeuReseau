@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114408912201414542}
   - component: {fileID: 114219861074128018}
   - component: {fileID: 82952762295616882}
+  - component: {fileID: 114657443466177876}
   m_Layer: 0
   m_Name: CityV2
   m_TagString: Untagged
@@ -281,6 +282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b737308cbc9d2e645a1a9c86694a7cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  neighboors: {fileID: 0}
   hoverSnd: {fileID: 8300000, guid: 9311d1dfc5dd1e34689ba75a517ae252, type: 3}
   CapturedSnd: {fileID: 8300000, guid: 93b615918e694e14595ce15ef7c12476, type: 3}
   audioS: {fileID: 82952762295616882}
@@ -291,6 +293,21 @@ MonoBehaviour:
   cityID: 0
   matNeutral: {fileID: 2100000, guid: 2c0eb07d34e540046b5e2aea9d2d74be, type: 2}
   matNeutralHover: {fileID: 2100000, guid: 7e83753910529464b9b63035c2f06dfb, type: 2}
+  captureStr: 0
+--- !u!114 &114657443466177876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1152473276763978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bb2c70755d2364fb4727e87332ea28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTargetForDefenseMove: {fileID: 0}
+  allConnections: []
+  isInDanger: 0
 --- !u!135 &135902614281558666
 SphereCollider:
   m_ObjectHideFlags: 1

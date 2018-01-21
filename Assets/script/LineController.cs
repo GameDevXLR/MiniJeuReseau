@@ -13,6 +13,7 @@ public class LineController : NetworkBehaviour {
     public CityV2[] cities;
 	[SyncVar]public int lineID;
     public bool isModified = false;
+	public bool isBarrage;
 	public Material matNormal;
 	public Material matHover;
 	public Material matHoverBarrage;
@@ -67,6 +68,18 @@ public class LineController : NetworkBehaviour {
 		}
 	}
 
+	public void MakeBarrage()
+	{
+		GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeBarrage (lineID);
+		isModified = true;
+	}
+
+	public void MakeRoad()
+	{
+		GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeRoad (lineID);
+		isModified = true;
+	}
+
 	[ClientRpc]
 	public void RpcChangeTheLineToRoad()
 	{
@@ -86,7 +99,7 @@ public class LineController : NetworkBehaviour {
 	public void RpcChangeTheLineToBarrage()
 	{
 		audioS.PlayOneShot (barrageSnd);
-
+		isBarrage = true;
 		isModified = true;
 		lineR.material = GameManager.instance.barrage;
 		StartCoroutine (AfterCaptureProcedure ());
@@ -107,6 +120,25 @@ public class LineController : NetworkBehaviour {
 		lineR.material = matNormal;
 		yield return new WaitForSecondsRealtime (.1f);
 		lineR.material = tmpMat;
-
+		yield return new WaitForSecondsRealtime (.1f);
+		lineR.material = matNormal;
+		yield return new WaitForSecondsRealtime (.1f);
+		lineR.material = tmpMat;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = matNormal;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = tmpMat;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = matNormal;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = tmpMat;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = matNormal;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = tmpMat;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = matNormal;
+		yield return new WaitForSecondsRealtime (.05f);
+		lineR.material = tmpMat;
 	}
 }
