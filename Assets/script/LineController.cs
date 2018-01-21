@@ -20,6 +20,9 @@ public class LineController : NetworkBehaviour {
 	LineRenderer lineR;
 	Material tmpMat; //utiliser pour faire clignoter.
 
+	float doubleClicTimer;
+	bool waitingForDoubleClick;
+
 	void Start()
 	{
 		lineR = GetComponent<LineRenderer> ();
@@ -29,18 +32,48 @@ public class LineController : NetworkBehaviour {
 		if (NetworkGameManager.instance.GameHasBegun) {
 			
 			if (!isModified) {
-				if (NetworkGameManager.instance.isPlayer1Turn && isServer || !NetworkGameManager.instance.isPlayer1Turn && !isServer || SettingPlayer.instance.isSolo) {
-					if (Input.GetKey (KeyCode.LeftControl)) {
-						GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeBarrage (lineID);
-						isModified = true;
-						return;
-
-					} else {	
-						GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeRoad (lineID);
-						isModified = true;
-					}
+				if (NetworkGameManager.instance.isPlayer1Turn && isServer || !NetworkGameManager.instance.isPlayer1Turn && !isServer || SettingPlayer.instance.isSolo) 
+				{
+					isModified = true;
+					StartCoroutine(WaitForDoubleClick());
+//					if (Input.GetKey (KeyCode.LeftControl)) {
+//						GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeBarrage (lineID);
+//						isModified = true;
+//						return;
+//
+//					} else {	
+//						GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeRoad (lineID);
+//						isModified = true;
+//					}
 				}
 			}
+		}
+	}
+
+	IEnumerator WaitForDoubleClick()
+	{
+		waitingForDoubleClick = true;
+		doubleClicTimer = 0f;
+		yield return new WaitForEndOfFrame ();
+		while (waitingForDoubleClick) 
+		{
+
+			doubleClicTimer += .1f;
+			if (doubleClicTimer > .7f) {
+				if (Input.GetMouseButton (0)) {
+					GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeBarrage (lineID);
+					
+				} else {
+					GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeRoad (lineID);
+				}
+				waitingForDoubleClick = false;
+			}
+			if (!Input.GetMouseButton(0)) 
+			{
+				GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeRoad (lineID);
+				waitingForDoubleClick = false;
+			}
+			yield return new WaitForSecondsRealtime (.1f);			
 		}
 	}
 	void OnMouseEnter()
