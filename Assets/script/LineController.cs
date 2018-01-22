@@ -93,6 +93,7 @@ public class LineController : NetworkBehaviour {
 
 	void OnMouseExit()
 	{
+		audioS.Stop ();
 		if (!isModified) {
 			
 			GameManager.instance.ChangeCursor (false);
@@ -103,6 +104,7 @@ public class LineController : NetworkBehaviour {
 
 	public void MakeBarrage()
 	{
+		
 		GameManager.instance.localPlayerObj.GetComponent<PlayerNetworkManager> ().CaptureLineMakeBarrage (lineID);
 		isModified = true;
 	}
@@ -117,6 +119,7 @@ public class LineController : NetworkBehaviour {
 	public void RpcChangeTheLineToRoad()
 	{
 		audioS.PlayOneShot (roadSnd);
+		GameManager.instance.ChangePositionPossible (-1);
 
 		isModified = true;
 		lineR.material = GameManager.instance.road;
@@ -132,6 +135,8 @@ public class LineController : NetworkBehaviour {
 	public void RpcChangeTheLineToBarrage()
 	{
 		audioS.PlayOneShot (barrageSnd);
+		GameManager.instance.ChangePositionPossible (-1);
+
 		isBarrage = true;
 		isModified = true;
 		lineR.material = GameManager.instance.barrage;

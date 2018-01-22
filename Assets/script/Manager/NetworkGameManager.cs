@@ -126,7 +126,6 @@ public class NetworkGameManager : NetworkBehaviour {
             }
 		}
 
-		GameManager.instance.ChangePositionPossible (-1);
 		if (isServer) 
 		{
 			if (isPlayer1Turn) //si c'est ton tour et t'es serveur

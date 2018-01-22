@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     public Text textScoreP2;
 	public Text player1Name;
 	public Text player2Name;
-
+	public Text endGameDisplayTxt;
 	public GameObject localPlayerObj;
 	public GameObject backToMenuEndGameButton;
 
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
 
 	public Button ActivateGingerPowerAIBtn;
 	public Animator citiesAnimator;
+	public Animator endGameAnimator;
 	public GingerPowerAI GPAI;
 
     private void Awake()
@@ -72,6 +73,14 @@ public class GameManager : MonoBehaviour {
 		}
 		citiesAnimator.enabled = true;
 		Invoke ("ShowTheLines", 2f);
+	}
+
+	public void PlayEndGamePanelAnimation()
+	{
+		endGameAnimator.enabled = true;
+//		endGameDisplayTxt.text = "Victory!";
+//		if(
+		//ajouter ici le son victoire defaite and co aussi.
 	}
 
 
@@ -204,35 +213,6 @@ public class GameManager : MonoBehaviour {
 		pointsP2++;
 		textScoreP2.text = pointsP2.ToString();
 	}
-
-    //public void setPoint(int point)
-    //{
-    //    if (isPlayer1Turn)
-    //    {
-    //        pointsP1 += point;
-    //        textScoreP1.text = pointsP1.ToString();
-    //    }
-    //    else
-    //    {
-    //        pointsP2 += point;
-    //        textScoreP2.text = pointsP2.ToString();
-    //    }
-    //}
-
-    //public void setPoint(int point, bool isP1)
-    //{
-    //    if (isP1)
-    //    {
-    //        pointsP1 += point;
-    //        textScoreP1.text = pointsP1.ToString();
-    //    }
-    //    else
-    //    {
-    //        pointsP2 += point;
-    //        textScoreP2.text = pointsP2.ToString();
-    //    }
-    //}
-
 	public void ChangeTurn()
 	{
 		isPlayer1Turn = !isPlayer1Turn;
@@ -240,7 +220,7 @@ public class GameManager : MonoBehaviour {
 		{
 			StartCoroutine(ShowInfo("YOUR TURN!",1.5f));
 		}
-		ChangePositionPossible (-1);
+//		ChangePositionPossible (-1);
 	}
 
 	public void ChangePositionPossible(int i)
@@ -260,7 +240,7 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator EndOfGame()
 	{
-
+		PlayEndGamePanelAnimation ();
 		PlayerNetworkManager[] players = GameObject.FindObjectsOfType <PlayerNetworkManager> ()as PlayerNetworkManager[];
 		foreach (var player in players) 
 		{
@@ -271,10 +251,13 @@ public class GameManager : MonoBehaviour {
 			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
+				endGameDisplayTxt.text = "Victory";
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
+				endGameDisplayTxt.text = "Defeat";
+
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
 		} else 
@@ -282,10 +265,14 @@ public class GameManager : MonoBehaviour {
 			if (!localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
+				endGameDisplayTxt.text = "Victory";
+
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
+				endGameDisplayTxt.text = "Defeat";
+
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
 		}
