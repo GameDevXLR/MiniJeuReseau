@@ -32,14 +32,17 @@ public class NetworkGameManager : NetworkBehaviour {
 		if (instance != null) 
 		{
 			Destroy (this);
-            if (SettingPlayer.instance.isSolo)
-            {
-                BeginTheGame();
-            }
 		}
 		instance = this;
 	}
+	void Start()
+	{
+		if (SettingPlayer.instance.isSolo)
+		{
+			BeginTheGame();
+		}
 		
+	}
 	//arrive qu'une fois que chez le serveur.
 	public override void OnStartServer ()
 	{
@@ -72,14 +75,23 @@ public class NetworkGameManager : NetworkBehaviour {
 
 	public void BeginTheGame()
 	{
-		GameHasBegun = true;
 		StartCoroutine(GameManager.instance.ShowInfo("You play first!", 1f));
+		RpcGameHasBegun ();
+	}
+	[ClientRpc]
+	public void RpcGameHasBegun()
+	{
+		GameManager.instance.ActivateGingerPowerAIBtn.gameObject.SetActive (false);
+
+		GameManager.instance.StartAnimation ();
+		GameHasBegun = true;
 		GameManager.instance.PlateauMeshR.materials = matPlayerTurn;
 		if (!gingerPowerAI) {
 			
 			GameManager.instance.timeLeftSliderP1.gameObject.SetActive (true);
 			GameManager.instance.StartCoroutine ("ActivateTimer");
 		}
+		
 	}
 
 	//appeler chez le serveur pour changer le tour.

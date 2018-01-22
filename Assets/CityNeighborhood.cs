@@ -81,7 +81,7 @@ public class CityNeighborhood : MonoBehaviour
 
 	public void CheckTheNeighboorhood()
 	{
-		Debug.Log ("checking neightb");
+//		Debug.Log ("checking neightb");
 
 		motherCity.defenseStr = TellMeMyDefStrenght ();
 		motherCity.attackStr = TellMeAttackStr ();
@@ -99,17 +99,16 @@ public class CityNeighborhood : MonoBehaviour
 			if (!city.Value.isBarrage) {
 				if (city.Key.isTaken && city.Key.isP1) {
 					dangereousNeighB.Add (city.Key, city.Key.defenseStr);
-					Debug.Log ("adding  dangereous neighB");
+//					Debug.Log ("adding  dangereous neighB");
 					if (city.Value.isModified) 
 					{
 						dangereousRoads++;
-						Debug.Log ("a road exist between this city and the dangereous neighB");
+//						Debug.Log ("a road exist between this city and the dangereous neighB");
 					} else 
 					{
 						//ya une route, non prise, et elle mène a une ville qui serait prise si jmet une route:
 						if (city.Key.defenseStr - city.Key.attackStr == 0) {
 							if (currentTargetForAttackMove == null) {
-								Debug.Log ("done");
 								currentTargetForAttackMove = city.Value;
 							}
 						}
@@ -143,10 +142,10 @@ public class CityNeighborhood : MonoBehaviour
 		
 		if (dangereousNeighB.Count-motherCity.defenseStr >0) 
 		{
-			Debug.Log ("more enemies than this city can handle! care!!!");
+//			Debug.Log ("more enemies than this city can handle! care!!!");
 			if (dangereousRoads == motherCity.defenseStr) 
 			{
-				Debug.Log ("Alerte!On est a un tour de se faire baisé!");
+//				Debug.Log ("Alerte!On est a un tour de se faire baisé!");
 				return true;
 
 			}
@@ -160,14 +159,14 @@ public class CityNeighborhood : MonoBehaviour
 	//n'est pas déja occuper et est connecté a un ennemi.
 	public void FindAnEmptyLineToMakeBarrage()
 	{
-		Debug.Log ("trying to find a nice and soft empty line");
+//		Debug.Log ("trying to find a nice and soft empty line");
 		connectedCities.TryGetValue (dangereousNeighB.ElementAt(tries).Key, out currentTargetForDefenseMove);
 		if (currentTargetForDefenseMove.isModified) 
 		{
 			tries++;
 			if (tries == dangereousNeighB.Count) 
 			{
-				Debug.Log ("aucun des ennemis a proximité n'a de route vide menant a lui");
+//				Debug.Log ("aucun des ennemis a proximité n'a de route vide menant a lui");
 				return;
 			}
 			FindAnEmptyLineToMakeBarrage();

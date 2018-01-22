@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour {
 	public Slider timeLeftSliderP2;
 
 	public Button ActivateGingerPowerAIBtn;
+	public Animator citiesAnimator;
 	public GingerPowerAI GPAI;
 
     private void Awake()
@@ -58,18 +59,39 @@ public class GameManager : MonoBehaviour {
             instance = this;
             positionPossible += cities.Length + lines.Length;
 			positionsLeftCount.text = positionPossible.ToString ();
-            if (SettingPlayer.instance.isSolo)
-            {
-                NetworkGameManager.instance.BeginTheGame();
-            }
+//            if (SettingPlayer.instance.isSolo)
+//            {
+//                NetworkGameManager.instance.BeginTheGame();
+//            }
         }
         else
             Destroy(gameObject);
     }
 
+	public void StartAnimation()
+	{
+		if (SettingPlayer.instance.isSolo) 
+		{
+			player2Name.text = "You/A friend";
+		}
+		citiesAnimator.enabled = true;
+		Invoke ("ShowTheLines", 2f);
+	}
+
+
+	public void ShowTheLines()
+	{
+		foreach (var l in lines) 
+		{
+			l.GetComponent<LineRenderer> ().enabled = true;
+			
+		}
+	}
+
 	public void PlayAgainstGPAI()
 	{
 		GPAI.enabled = true;
+		ActivateGingerPowerAIBtn.gameObject.SetActive (false);
 	}
 
 	public void ChangeCursor(bool isOver)
