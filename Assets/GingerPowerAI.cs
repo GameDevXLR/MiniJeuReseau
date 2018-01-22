@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GingerPowerAI : MonoBehaviour 
+public class GingerPowerAI : MonoBehaviour , IAInterface
 {
 
 
@@ -125,4 +125,19 @@ public class GingerPowerAI : MonoBehaviour
 		}
 		FindAndCaptureACity ();
 	}
+
+    public void launch()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void launchTurn()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void endTurn()
+    {
+        throw new System.NotImplementedException();
+    }
 }
