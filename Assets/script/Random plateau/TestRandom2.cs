@@ -138,8 +138,10 @@ public class TestRandom2 : MonoBehaviour {
         GameObject line = Instantiate(linePrefab);
         line.transform.SetParent(linesParent.transform);
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
-        lineRenderer.SetPosition(0, city.transform.localPosition);
-        lineRenderer.SetPosition(1, linkCity.transform.localPosition);
+        Vector3 posCity = city.transform.position;
+        lineRenderer.SetPosition(0, posCity);
+
+        lineRenderer.SetPosition(1, linkCity.transform.position);
 
         line.GetComponent<LineController>().addCity(city.GetComponent<CityV2>(), linkCity.GetComponent<CityV2>());
 
