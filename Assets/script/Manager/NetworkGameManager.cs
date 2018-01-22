@@ -79,6 +79,7 @@ public class NetworkGameManager : NetworkBehaviour {
 	{
 		StartCoroutine(GameManager.instance.ShowInfo("You play first!", 1f));
 		RpcGameHasBegun ();
+
 	}
 	[ClientRpc]
 	public void RpcGameHasBegun()
@@ -93,6 +94,9 @@ public class NetworkGameManager : NetworkBehaviour {
 			GameManager.instance.timeLeftSliderP1.gameObject.SetActive (true);
 			GameManager.instance.StartCoroutine ("ActivateTimer");
 		}
+		GameManager.instance.isNotP1Turn = !isPlayer1Turn;
+
+		GameManager.instance.ChangeCursor (false);
 		
 	}
 
@@ -101,7 +105,8 @@ public class NetworkGameManager : NetworkBehaviour {
 	public void ChangePlayerTurn()
 	{
 		isPlayer1Turn = !isPlayer1Turn;
-		GameManager.instance.isPlayer1Turn = !isPlayer1Turn;
+		GameManager.instance.isNotP1Turn = !isPlayer1Turn;
+		GameManager.instance.ChangeCursor (false);
 
 		if (!gingerPowerAI) {
 		    if (isPlayer1Turn) {

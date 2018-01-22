@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     static public GameManager instance;
 
-	public bool isPlayer1Turn = true;
+	public bool isNotP1Turn = true;
     
 	public Player player1;
     public Player player2;
@@ -42,8 +42,11 @@ public class GameManager : MonoBehaviour {
 
 	public MeshRenderer PlateauMeshR;
 
-	public Texture2D cursorNormal;
-	public Texture2D cursorOver;
+	public Texture2D cursorNotActive;
+	public Texture2D cursorNormalP1;
+	public Texture2D cursorOverP1;
+	public Texture2D cursorNormalP2;
+	public Texture2D cursorOverP2;
 
 	public Slider timeLeftSliderP1;
 	public Slider timeLeftSliderP2;
@@ -103,10 +106,28 @@ public class GameManager : MonoBehaviour {
 	{
 		if (isOver) 
 		{
-			Cursor.SetCursor (cursorOver, new Vector2 (8f, 8f), CursorMode.Auto);
+			if (NetworkGameManager.instance.isServer && !isNotP1Turn) 
+			{
+
+				Cursor.SetCursor (cursorOverP1, new Vector2 (8f, 8f), CursorMode.Auto);
+
+			}
+			if (!NetworkGameManager.instance.isServer && isNotP1Turn) 
+			{
+				Cursor.SetCursor (cursorOverP2, new Vector2 (8f, 8f), CursorMode.Auto);
+
+			}
+//			Cursor.SetCursor (cursorOverP1, new Vector2 (8f, 8f), CursorMode.Auto);
 		} else 
 		{
-			Cursor.SetCursor (cursorNormal, new Vector2 (8f, 8f), CursorMode.Auto);
+			if (NetworkGameManager.instance.isServer && !isNotP1Turn) {
+				Cursor.SetCursor (cursorNormalP1, new Vector2 (8f, 8f), CursorMode.Auto);
+
+			} else if (!NetworkGameManager.instance.isServer && isNotP1Turn) {
+				Cursor.SetCursor (cursorNormalP2, new Vector2 (8f, 8f), CursorMode.Auto);
+			} else {
+				Cursor.SetCursor (cursorNotActive, new Vector2 (8f, 8f), CursorMode.Auto);
+			}
 
 		}
 	}
@@ -122,7 +143,7 @@ public class GameManager : MonoBehaviour {
 
     public void addCity(CityV2 city)
     {
-        if (isPlayer1Turn)
+        if (isNotP1Turn)
         {
             if (!citiesPlayer1.Contains(city))
             {
@@ -149,7 +170,7 @@ public class GameManager : MonoBehaviour {
 
     public void removeCity(CityV2 city)
     {
-        if (isPlayer1Turn)
+        if (isNotP1Turn)
         {
             if (citiesPlayer1.Contains(city))
             {
@@ -215,8 +236,8 @@ public class GameManager : MonoBehaviour {
 	}
 	public void ChangeTurn()
 	{
-		isPlayer1Turn = !isPlayer1Turn;
-		if (isPlayer1Turn) 
+//		isPlayer1Turn = !isPlayer1Turn;
+		if (isNotP1Turn) 
 		{
 			StartCoroutine(ShowInfo("YOUR TURN!",1.5f));
 		}
