@@ -112,15 +112,18 @@ public class NetworkGameManager : NetworkBehaviour {
 			    GameManager.instance.StopCoroutine ("ActivateTimer");
 			    GameManager.instance.timeLeftSliderP2.value = GameManager.instance.timeLeftSliderP2.maxValue;
 			    GameManager.instance.StartCoroutine ("ActivateTimer");
+                
 
-		    } else {
-				    GameManager.instance.timeLeftSliderP1.gameObject.SetActive (false);
-				    GameManager.instance.timeLeftSliderP2.gameObject.SetActive (true);
+		    }
+            else
+            {
+				GameManager.instance.timeLeftSliderP1.gameObject.SetActive (false);
+				GameManager.instance.timeLeftSliderP2.gameObject.SetActive (true);
 
-				    GameManager.instance.StopCoroutine ("ActivateTimer");
-				    GameManager.instance.timeLeftSliderP1.value = GameManager.instance.timeLeftSliderP1.maxValue;
-				    GameManager.instance.StartCoroutine ("ActivateTimer");
-			}
+				GameManager.instance.StopCoroutine ("ActivateTimer");
+				GameManager.instance.timeLeftSliderP1.value = GameManager.instance.timeLeftSliderP1.maxValue;
+				GameManager.instance.StartCoroutine ("ActivateTimer");
+            }
 		}
 
 		GameManager.instance.ChangePositionPossible (-1);
@@ -130,15 +133,23 @@ public class NetworkGameManager : NetworkBehaviour {
 			{
 				StartCoroutine( GameManager.instance.ShowInfo ("Your Turn", 1f));
 				GameManager.instance.PlateauMeshR.materials = matPlayerTurn;
-			} else 
+                if (IAPlayer1 != null)
+                {
+                    DelayAITurn(IAPlayer1);
+                }
+            } else 
 			{
 				GameManager.instance.PlateauMeshR.materials= matOpponentTurn;
 				if (gingerPowerAI) 
 				{
 					DelayAITurn ();
-				}
+                }
+                if (IAPlayer2 != null)
+                {
+                    DelayAITurn(IAPlayer2);
+                }
 
-			}
+            }
 		} else 
 		{
 			if (!isPlayer1Turn) //si c'est ton tour que t'es pas serveur.
@@ -152,24 +163,31 @@ public class NetworkGameManager : NetworkBehaviour {
 
 			}
 		}
-
-
-
 	}
 
-	public void DelayAITurn()
-	{
-		StartCoroutine (DelayAITurnProcedure ());
-	}
+    public void DelayAITurn()
+    {
+        StartCoroutine(DelayAITurnProcedure());
+    }
+    public void DelayAITurn(IAInterface ia)
+    {
+        StartCoroutine(DelayAITurnProcedure(ia));
+    }
 
-	IEnumerator DelayAITurnProcedure()
-	{
-		yield return new WaitForSecondsRealtime (Random.Range (1f, 3f));
-		GameManager.instance.GetComponent<GingerPowerAI> ().PlayOneTurn ();
+    IEnumerator DelayAITurnProcedure()
+    {
+        yield return new WaitForSecondsRealtime(Random.Range(1f, 3f));
+        GameManager.instance.GetComponent<GingerPowerAI>().PlayOneTurn();
 
-	}
+    }
+    IEnumerator DelayAITurnProcedure(IAInterface ia)
+    {
+        yield return new WaitForSecondsRealtime(Random.Range(1f, 3f));
+        ia.launchTurn();
 
-	public void EndMyTurn()
+    }
+
+    public void EndMyTurn()
 	{
 		if (isServer) 
 		{
