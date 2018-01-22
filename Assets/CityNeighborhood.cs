@@ -11,7 +11,7 @@ public class CityNeighborhood : MonoBehaviour
 	public LineController currentTargetForFriendlyCityLinkMove;
 
 	public LineController[] allConnections; // a compléter manuellement pour le moment. Utiliser un sphere cast ou autre plus tard.
-    LineController[] listLinkGameObj = new LineController[8];
+    public LineController[] listLinkGameObj = new LineController[8];
     public Dictionary<CityV2,LineController> connectedCities;
 	public Dictionary<CityV2,int> dangereousNeighB;
 	public bool isInDanger;
@@ -19,7 +19,7 @@ public class CityNeighborhood : MonoBehaviour
     public int nbrLink;
 
 	// Use this for initialization
-	void Start () 
+	void Awake () 
 	{
         motherCity = GetComponent<CityV2>();
         dangereousNeighB = new Dictionary<CityV2, int>();
@@ -35,21 +35,28 @@ public class CityNeighborhood : MonoBehaviour
     {
         foreach (var lineC in allConnections)
         {
-            if (lineC.cities[0] != motherCity)
-            {
-                connectedCities.Add(lineC.cities[0], lineC);
-            }
-            if (lineC.cities[1] != motherCity)
-            {
-
-                connectedCities.Add(lineC.cities[1], lineC);
-            }
+            addCityInConnectedCities(lineC);
         }
     }
 
-    public void addCityLink(LineController city, int indexLink)
+    public void addCityInConnectedCities(LineController lineC)
     {
-        listLinkGameObj[indexLink] = city;
+        if (lineC.cities[0] != motherCity)
+        {
+            connectedCities.Add(lineC.cities[0], lineC);
+        }
+        if (lineC.cities[1] != motherCity)
+        {
+
+            connectedCities.Add(lineC.cities[1], lineC);
+        }
+    }
+
+    public void addCityLink(LineController cityLink, int indexLink)
+    {
+        listLinkGameObj[indexLink] = cityLink;
+
+        addCityInConnectedCities(cityLink);
         nbrLink++;
     }
 
@@ -211,15 +218,12 @@ public class CityNeighborhood : MonoBehaviour
     {
         LineController line;
         int indexCity = Random.Range(0, listLinkGameObj.Length - 1);
-        do
+        while (listLinkGameObj[indexCity] != null)
         {
-
-            line = listLinkGameObj[indexCity];
             indexCity++;
             if (indexCity == listLinkGameObj.Length)
                 indexCity = 0;
         }
-        while (line != null);
         return indexCity;
     }
 

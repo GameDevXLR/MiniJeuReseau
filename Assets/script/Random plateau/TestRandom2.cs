@@ -31,6 +31,7 @@ public class TestRandom2 : MonoBehaviour {
         cities = new List<CityV2>();
         CityV2 city = Instantiate(cityPrefab).GetComponent<CityV2>();
         city.gameObject.transform.SetParent(citiesParent.transform);
+        city.gameObject.transform.position = new Vector3(0, 0, 0);
         CityV2 linkCity;
         LineController linkController;
         cities.Add(city);
@@ -57,10 +58,10 @@ public class TestRandom2 : MonoBehaviour {
 
                 linkCity = Instantiate(cityPrefab).GetComponent<CityV2>();
                 linkCity.gameObject.transform.SetParent(citiesParent.transform);
-                linkCity.gameObject.transform.position = new Vector3(colNewCity * separation + separation, 0, lineNewCity * separation + separation);
+                linkCity.gameObject.transform.position = new Vector3(colNewCity * separation , 0, lineNewCity * separation );
 
                 linkCity.setCoordonate(lineNewCity, colNewCity);
-
+                
                 
 
                 citiesEdge.Add(linkCity);
@@ -70,7 +71,7 @@ public class TestRandom2 : MonoBehaviour {
             linkController = createLine(city.gameObject, linkCity.gameObject);
 
             city.neighboors.addCityLink(linkController, link);
-            city.neighboors.addCityLinkInverse(linkController, link);
+            linkCity.neighboors.addCityLinkInverse(linkController, link);
 
             if (city.neighboors.nbrLink == 8)
             {
