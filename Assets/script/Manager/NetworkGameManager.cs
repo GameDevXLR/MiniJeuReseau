@@ -16,9 +16,11 @@ public class NetworkGameManager : NetworkBehaviour {
 	public Material[] matPlayerTurn;
 	public Material[] matOpponentTurn;
 	public bool gingerPowerAI;
+    public IAInterface IAPlayer1;
+    public IAInterface IAPlayer2;
 
 
-	public void ActivateTheAmazingGingerAI()
+    public void ActivateTheAmazingGingerAI()
 	{
 		gingerPowerAI = true;
 		BeginTheGame ();
@@ -102,22 +104,22 @@ public class NetworkGameManager : NetworkBehaviour {
 		GameManager.instance.isPlayer1Turn = !isPlayer1Turn;
 
 		if (!gingerPowerAI) {
-		if (isPlayer1Turn) {
+		    if (isPlayer1Turn) {
 			
-			GameManager.instance.timeLeftSliderP1.gameObject.SetActive (true);
-			GameManager.instance.timeLeftSliderP2.gameObject.SetActive (false);
+			    GameManager.instance.timeLeftSliderP1.gameObject.SetActive (true);
+			    GameManager.instance.timeLeftSliderP2.gameObject.SetActive (false);
 
-			GameManager.instance.StopCoroutine ("ActivateTimer");
-			GameManager.instance.timeLeftSliderP2.value = GameManager.instance.timeLeftSliderP2.maxValue;
-			GameManager.instance.StartCoroutine ("ActivateTimer");
+			    GameManager.instance.StopCoroutine ("ActivateTimer");
+			    GameManager.instance.timeLeftSliderP2.value = GameManager.instance.timeLeftSliderP2.maxValue;
+			    GameManager.instance.StartCoroutine ("ActivateTimer");
 
-		} else {
-				GameManager.instance.timeLeftSliderP1.gameObject.SetActive (false);
-				GameManager.instance.timeLeftSliderP2.gameObject.SetActive (true);
+		    } else {
+				    GameManager.instance.timeLeftSliderP1.gameObject.SetActive (false);
+				    GameManager.instance.timeLeftSliderP2.gameObject.SetActive (true);
 
-				GameManager.instance.StopCoroutine ("ActivateTimer");
-				GameManager.instance.timeLeftSliderP1.value = GameManager.instance.timeLeftSliderP1.maxValue;
-				GameManager.instance.StartCoroutine ("ActivateTimer");
+				    GameManager.instance.StopCoroutine ("ActivateTimer");
+				    GameManager.instance.timeLeftSliderP1.value = GameManager.instance.timeLeftSliderP1.maxValue;
+				    GameManager.instance.StartCoroutine ("ActivateTimer");
 			}
 		}
 

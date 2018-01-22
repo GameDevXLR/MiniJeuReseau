@@ -59,10 +59,6 @@ public class GameManager : MonoBehaviour {
             instance = this;
             positionPossible += cities.Length + lines.Length;
 			positionsLeftCount.text = positionPossible.ToString ();
-//            if (SettingPlayer.instance.isSolo)
-//            {
-//                NetworkGameManager.instance.BeginTheGame();
-//            }
         }
         else
             Destroy(gameObject);
@@ -122,7 +118,6 @@ public class GameManager : MonoBehaviour {
             if (!citiesPlayer1.Contains(city))
             {
                 citiesPlayer1.Add(city);
-//                setPoint(1);
                 textScoreP1.text = pointsP1.ToString();
             }
             else
@@ -135,7 +130,6 @@ public class GameManager : MonoBehaviour {
             if (!citiesPlayer2.Contains(city))
             {
                 citiesPlayer2.Add(city);
-//                setPoint(1);
             }
             else
             {
@@ -151,7 +145,6 @@ public class GameManager : MonoBehaviour {
             if (citiesPlayer1.Contains(city))
             {
                 citiesPlayer1.Remove(city);
-//                setPoint(-1);
             }
             else
             {
@@ -163,7 +156,6 @@ public class GameManager : MonoBehaviour {
             if (citiesPlayer2.Contains(city))
             {
                 citiesPlayer2.Remove(city);
-//                setPoint(-1);
             }
             else
             {
@@ -213,33 +205,33 @@ public class GameManager : MonoBehaviour {
 		textScoreP2.text = pointsP2.ToString();
 	}
 
-    public void setPoint(int point)
-    {
-        if (isPlayer1Turn)
-        {
-            pointsP1 += point;
-            textScoreP1.text = pointsP1.ToString();
-        }
-        else
-        {
-            pointsP2 += point;
-            textScoreP2.text = pointsP2.ToString();
-        }
-    }
+    //public void setPoint(int point)
+    //{
+    //    if (isPlayer1Turn)
+    //    {
+    //        pointsP1 += point;
+    //        textScoreP1.text = pointsP1.ToString();
+    //    }
+    //    else
+    //    {
+    //        pointsP2 += point;
+    //        textScoreP2.text = pointsP2.ToString();
+    //    }
+    //}
 
-    public void setPoint(int point, bool isP1)
-    {
-        if (isP1)
-        {
-            pointsP1 += point;
-            textScoreP1.text = pointsP1.ToString();
-        }
-        else
-        {
-            pointsP2 += point;
-            textScoreP2.text = pointsP2.ToString();
-        }
-    }
+    //public void setPoint(int point, bool isP1)
+    //{
+    //    if (isP1)
+    //    {
+    //        pointsP1 += point;
+    //        textScoreP1.text = pointsP1.ToString();
+    //    }
+    //    else
+    //    {
+    //        pointsP2 += point;
+    //        textScoreP2.text = pointsP2.ToString();
+    //    }
+    //}
 
 	public void ChangeTurn()
 	{
