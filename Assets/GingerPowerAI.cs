@@ -44,7 +44,7 @@ public class GingerPowerAI : MonoBehaviour
 		{
 			//			CityNeighborhood CN = GameManager.instance.citiesPlayer2 [i].neighboors;
 			GameManager.instance.citiesPlayer1 [i].neighboors.CheckTheNeighboorhood ();
-			Debug.Log ("checking city team1: " + i);
+//			Debug.Log ("checking city team1: " + i);
 
 		}
 
@@ -52,7 +52,7 @@ public class GingerPowerAI : MonoBehaviour
 		{
 //			CityNeighborhood CN = GameManager.instance.citiesPlayer2 [i].neighboors;
 			GameManager.instance.citiesPlayer2 [i].neighboors.CheckTheNeighboorhood ();
-			Debug.Log ("checking city " + i);
+//			Debug.Log ("checking city " + i);
 
 			//make a defensive move if there is danger...
 		}
@@ -113,7 +113,7 @@ public class GingerPowerAI : MonoBehaviour
 
 	public void FindAndCaptureACity()
 	{
-		Debug.Log ("trying to capture a free city");
+//		Debug.Log ("trying to capture a free city");
 		int i = Random.Range (0, GameManager.instance.cities.Length);
 		if (!GameManager.instance.cities [i].isTaken) 
 		{
