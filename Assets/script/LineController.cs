@@ -174,4 +174,11 @@ public class LineController : NetworkBehaviour {
 		yield return new WaitForSecondsRealtime (.05f);
 		lineR.material = tmpMat;
 	}
+
+    public void addCity(CityV2 city1, CityV2 city2)
+    {
+        cities = new CityV2[2];
+        cities[0] = city1;
+        cities[1] = city2;
+    }
 }

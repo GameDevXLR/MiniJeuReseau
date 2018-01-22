@@ -11,30 +11,63 @@ public class CityNeighborhood : MonoBehaviour
 	public LineController currentTargetForFriendlyCityLinkMove;
 
 	public LineController[] allConnections; // a compléter manuellement pour le moment. Utiliser un sphere cast ou autre plus tard.
-	public Dictionary<CityV2,LineController> connectedCities;
+    LineController[] listLinkGameObj = new LineController[8];
+    public Dictionary<CityV2,LineController> connectedCities;
 	public Dictionary<CityV2,int> dangereousNeighB;
 	public bool isInDanger;
 	int dangereousRoads;
+    public int nbrLink;
+
 	// Use this for initialization
 	void Start () 
 	{
-		motherCity = GetComponent<CityV2> ();
-		dangereousNeighB = new Dictionary<CityV2,int> ();
-		connectedCities = new Dictionary<CityV2,LineController> ();
-
-		foreach (var lineC in allConnections) {
-			if (lineC.cities [0] != motherCity) {
-				connectedCities.Add (lineC.cities [0], lineC);
-			}
-			if (lineC.cities [1] != motherCity) {
-				
-				connectedCities.Add (lineC.cities [1], lineC);
-			}
-		}
-		GameStatisticsLogger.instance.allCitiesNeighborhood.Add (this);
+        motherCity = GetComponent<CityV2>();
+        dangereousNeighB = new Dictionary<CityV2, int>();
+        connectedCities = new Dictionary<CityV2, LineController>();
+        GameStatisticsLogger.instance.allCitiesNeighborhood.Add(this);
+        if (!GameManager.instance.isgenerate)
+        {
+            procedureStart();
+        }
 	}
 
-	public int TellMeMyDefStrenght()
+    public void procedureStart()
+    {
+        foreach (var lineC in allConnections)
+        {
+            if (lineC.cities[0] != motherCity)
+            {
+                connectedCities.Add(lineC.cities[0], lineC);
+            }
+            if (lineC.cities[1] != motherCity)
+            {
+
+                connectedCities.Add(lineC.cities[1], lineC);
+            }
+        }
+    }
+
+    public void addCityLink(LineController city, int indexLink)
+    {
+        listLinkGameObj[indexLink] = city;
+        nbrLink++;
+    }
+
+    public void addCityLinkInverse(LineController city, int indexLink)
+    {
+        if (indexLink > 3)
+        {
+            indexLink -= 4;
+        }
+        else
+        {
+            indexLink += 4;
+        }
+        listLinkGameObj[indexLink] = city;
+        nbrLink++;
+    }
+
+    public int TellMeMyDefStrenght()
 	{
 		int j = 1;
 		if (!motherCity.isP1) {
@@ -173,6 +206,22 @@ public class CityNeighborhood : MonoBehaviour
 		}
 	}
 
+
+    public int buildALink()
+    {
+        LineController line;
+        int indexCity = Random.Range(0, listLinkGameObj.Length - 1);
+        do
+        {
+
+            line = listLinkGameObj[indexCity];
+            indexCity++;
+            if (indexCity == listLinkGameObj.Length)
+                indexCity = 0;
+        }
+        while (line != null);
+        return indexCity;
+    }
 
 
 }

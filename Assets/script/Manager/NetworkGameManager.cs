@@ -148,7 +148,6 @@ public class NetworkGameManager : NetworkBehaviour {
                 {
                     DelayAITurn(IAPlayer2);
                 }
-
             }
 		} else 
 		{

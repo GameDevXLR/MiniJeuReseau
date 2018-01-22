@@ -22,6 +22,11 @@ public class CityV2 : NetworkBehaviour {
 	public int attackStr;
     bool isP1Turn;
 
+    //pour la génération aléatoire
+    public int line = 0;
+    public int column = 0;
+    public int nbreLink = 0;
+
 
     private void OnMouseDown()
 	{
@@ -192,4 +197,15 @@ public class CityV2 : NetworkBehaviour {
 		yield return new WaitForSecondsRealtime (.05f);
 		meshR.material = tmpMat;
 	}
+
+    public bool isGoodCity(int line, int column)
+    {
+        return this.line == line && this.column == column;
+    }
+
+    public void setCoordonate(int line, int column)
+    {
+        this.line = line;
+        this.column = column;
+    }
 }

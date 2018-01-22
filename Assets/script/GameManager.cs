@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour {
 	public Animator citiesAnimator;
 	public GingerPowerAI GPAI;
 
+    public bool isgenerate;
+
     private void Awake()
     {
         if (instance == null)

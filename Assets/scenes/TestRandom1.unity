@@ -1681,7 +1681,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1563776973}
-  - component: {fileID: 1563776972}
   m_Layer: 0
   m_Name: Position
   m_TagString: Untagged
@@ -1689,43 +1688,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1563776972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1563776971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 208bd93571cba5948a84631d98b54a82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 4
-  size2: 5
-  nbrePiont: 0
-  percentTaken: 20
-  txt: {fileID: 1500304363}
-  position:
-  - {fileID: 773047266}
-  - {fileID: 1869265272}
-  - {fileID: 2056017027}
-  - {fileID: 919297412}
-  - {fileID: 1833279400}
-  - {fileID: 1195002171}
-  - {fileID: 581817562}
-  - {fileID: 1954937358}
-  - {fileID: 1565455231}
-  - {fileID: 23892959}
-  - {fileID: 34250378}
-  - {fileID: 878948392}
-  - {fileID: 751699475}
-  - {fileID: 388143340}
-  - {fileID: 1059143641}
-  - {fileID: 964965940}
-  - {fileID: 1359829824}
-  - {fileID: 644991818}
-  - {fileID: 1128840544}
-  - {fileID: 1955831379}
 --- !u!4 &1563776973
 Transform:
   m_ObjectHideFlags: 0
