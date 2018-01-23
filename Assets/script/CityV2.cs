@@ -40,19 +40,6 @@ public class CityV2 : NetworkBehaviour {
 
 				}
 
-//            if (GameManager.instance.isPlayer1Turn)
-//            {
-//                gameObject.GetComponent<MeshRenderer>().material =GameManager.instance.player1.material;
-//                GameManager.instance.addCity(this);
-//                isP1 = true;
-//            }
-//            else
-//            {
-//                gameObject.GetComponent<MeshRenderer>().material = GameManager.instance.player2.material;
-//                GameManager.instance.addCity(this);
-//                isP1 = false;
-//            }
-//			GameManager.instance.ChangeTurn();
 			}
         
 		}
@@ -68,6 +55,8 @@ public class CityV2 : NetworkBehaviour {
 	[ClientRpc]
 	public void RpcCaptureCity(bool wasP1Turn)
 	{
+		GameManager.instance.ChangePositionPossible (-1);
+//		Debug.Log (gameObject.name);
 		isTaken = true;
 		if (wasP1Turn) 
 		{
@@ -100,7 +89,8 @@ public class CityV2 : NetworkBehaviour {
 	void OnMouseExit()
 	{
 		if (!isTaken) {
-			
+			audioS.Stop ();
+
 			GameManager.instance.ChangeCursor (false);
 			meshR.material = matNeutral;
 		}

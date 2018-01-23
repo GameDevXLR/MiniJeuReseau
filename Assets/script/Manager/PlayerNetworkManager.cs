@@ -77,6 +77,8 @@ public class PlayerNetworkManager : NetworkBehaviour
 	public void CaptureCity(int cityID, bool isP1)
 	{
 		CmdCaptureCity (cityID, isP1);
+
+
 	}
 	public void CaptureLineMakeRoad(int line)
 	{

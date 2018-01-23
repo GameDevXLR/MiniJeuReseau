@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     static public GameManager instance;
 
-	public bool isPlayer1Turn = true;
+	public bool isNotP1Turn = true;
     
 	public Player player1;
     public Player player2;
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     public Text textScoreP2;
 	public Text player1Name;
 	public Text player2Name;
-
+	public Text endGameDisplayTxt;
 	public GameObject localPlayerObj;
 	public GameObject backToMenuEndGameButton;
 
@@ -42,14 +42,18 @@ public class GameManager : MonoBehaviour {
 
 	public MeshRenderer PlateauMeshR;
 
-	public Texture2D cursorNormal;
-	public Texture2D cursorOver;
+	public Texture2D cursorNotActive;
+	public Texture2D cursorNormalP1;
+	public Texture2D cursorOverP1;
+	public Texture2D cursorNormalP2;
+	public Texture2D cursorOverP2;
 
 	public Slider timeLeftSliderP1;
 	public Slider timeLeftSliderP2;
 
 	public Button ActivateGingerPowerAIBtn;
 	public Animator citiesAnimator;
+	public Animator endGameAnimator;
 	public GingerPowerAI GPAI;
 
     public bool isgenerate;
@@ -76,6 +80,14 @@ public class GameManager : MonoBehaviour {
 		Invoke ("ShowTheLines", 2f);
 	}
 
+	public void PlayEndGamePanelAnimation()
+	{
+		endGameAnimator.enabled = true;
+//		endGameDisplayTxt.text = "Victory!";
+//		if(
+		//ajouter ici le son victoire defaite and co aussi.
+	}
+
 
 	public void ShowTheLines()
 	{
@@ -96,10 +108,28 @@ public class GameManager : MonoBehaviour {
 	{
 		if (isOver) 
 		{
-			Cursor.SetCursor (cursorOver, new Vector2 (8f, 8f), CursorMode.Auto);
+			if (NetworkGameManager.instance.isServer && !isNotP1Turn) 
+			{
+
+				Cursor.SetCursor (cursorOverP1, new Vector2 (8f, 8f), CursorMode.Auto);
+
+			}
+			if (!NetworkGameManager.instance.isServer && isNotP1Turn) 
+			{
+				Cursor.SetCursor (cursorOverP2, new Vector2 (8f, 8f), CursorMode.Auto);
+
+			}
+//			Cursor.SetCursor (cursorOverP1, new Vector2 (8f, 8f), CursorMode.Auto);
 		} else 
 		{
-			Cursor.SetCursor (cursorNormal, new Vector2 (8f, 8f), CursorMode.Auto);
+			if (NetworkGameManager.instance.isServer && !isNotP1Turn) {
+				Cursor.SetCursor (cursorNormalP1, new Vector2 (8f, 8f), CursorMode.Auto);
+
+			} else if (!NetworkGameManager.instance.isServer && isNotP1Turn) {
+				Cursor.SetCursor (cursorNormalP2, new Vector2 (8f, 8f), CursorMode.Auto);
+			} else {
+				Cursor.SetCursor (cursorNotActive, new Vector2 (8f, 8f), CursorMode.Auto);
+			}
 
 		}
 	}
@@ -115,7 +145,7 @@ public class GameManager : MonoBehaviour {
 
     public void addCity(CityV2 city)
     {
-        if (isPlayer1Turn)
+        if (isNotP1Turn)
         {
             if (!citiesPlayer1.Contains(city))
             {
@@ -142,7 +172,7 @@ public class GameManager : MonoBehaviour {
 
     public void removeCity(CityV2 city)
     {
-        if (isPlayer1Turn)
+        if (isNotP1Turn)
         {
             if (citiesPlayer1.Contains(city))
             {
@@ -206,43 +236,14 @@ public class GameManager : MonoBehaviour {
 		pointsP2++;
 		textScoreP2.text = pointsP2.ToString();
 	}
-
-    //public void setPoint(int point)
-    //{
-    //    if (isPlayer1Turn)
-    //    {
-    //        pointsP1 += point;
-    //        textScoreP1.text = pointsP1.ToString();
-    //    }
-    //    else
-    //    {
-    //        pointsP2 += point;
-    //        textScoreP2.text = pointsP2.ToString();
-    //    }
-    //}
-
-    //public void setPoint(int point, bool isP1)
-    //{
-    //    if (isP1)
-    //    {
-    //        pointsP1 += point;
-    //        textScoreP1.text = pointsP1.ToString();
-    //    }
-    //    else
-    //    {
-    //        pointsP2 += point;
-    //        textScoreP2.text = pointsP2.ToString();
-    //    }
-    //}
-
 	public void ChangeTurn()
 	{
-		isPlayer1Turn = !isPlayer1Turn;
-		if (isPlayer1Turn) 
+//		isPlayer1Turn = !isPlayer1Turn;
+		if (isNotP1Turn) 
 		{
 			StartCoroutine(ShowInfo("YOUR TURN!",1.5f));
 		}
-		ChangePositionPossible (-1);
+//		ChangePositionPossible (-1);
 	}
 
 	public void ChangePositionPossible(int i)
@@ -262,7 +263,7 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator EndOfGame()
 	{
-
+		PlayEndGamePanelAnimation ();
 		PlayerNetworkManager[] players = GameObject.FindObjectsOfType <PlayerNetworkManager> ()as PlayerNetworkManager[];
 		foreach (var player in players) 
 		{
@@ -273,10 +274,13 @@ public class GameManager : MonoBehaviour {
 			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
+				endGameDisplayTxt.text = "Victory";
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
+				endGameDisplayTxt.text = "Defeat";
+
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
 		} else 
@@ -284,10 +288,14 @@ public class GameManager : MonoBehaviour {
 			if (!localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
+				endGameDisplayTxt.text = "Victory";
+
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
+				endGameDisplayTxt.text = "Defeat";
+
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
 		}
