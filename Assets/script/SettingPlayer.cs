@@ -21,9 +21,12 @@ public class SettingPlayer : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+
+	//this will happen only once! ever!
 	void Start()
 	{
 		Invoke( "StartPlayingMusicTheme",.5f);
+
 	}
 
 	void StartPlayingMusicTheme()
