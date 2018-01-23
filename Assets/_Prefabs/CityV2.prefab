@@ -168,10 +168,11 @@ AudioSource:
   m_GameObject: {fileID: 1152473276763978}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 243652518861332196, guid: 8408a141df2e3174c8fd16bd0f2b9e1a,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -383,7 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neighboors: {fileID: 114657443466177876}
-  hoverSnd: {fileID: 8300000, guid: 9311d1dfc5dd1e34689ba75a517ae252, type: 3}
+  hoverSnd: {fileID: 8300000, guid: 0c60638d2a79b544584c8870cdd831b0, type: 3}
   CapturedSnd: {fileID: 8300000, guid: 93b615918e694e14595ce15ef7c12476, type: 3}
   audioS: {fileID: 82952762295616882}
   linkCities: []
@@ -395,6 +396,13 @@ MonoBehaviour:
   matNeutralHover: {fileID: 2100000, guid: 7e83753910529464b9b63035c2f06dfb, type: 2}
   defenseStr: 0
   attackStr: 0
+  line: 0
+  column: 0
+  nbreLink: 0
+  plus1PartSystem: {fileID: 1767161345143710, guid: fefdf507d1614744395d083b4ead027a,
+    type: 2}
+  less1PartSystem: {fileID: 1843363480196442, guid: ca01888989290664ba51e2d5b5a02c76,
+    type: 2}
 --- !u!114 &114657443466177876
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,7 +421,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  listLinkGameObj:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   isInDanger: 0
+  nbrLink: 0
 --- !u!135 &135902614281558666
 SphereCollider:
   m_ObjectHideFlags: 1

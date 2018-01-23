@@ -37,9 +37,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722237021405838}
-  m_LocalRotation: {x: -0, y: -0.38506427, z: -0, w: 0.92288977}
-  m_LocalPosition: {x: 6.14, y: 0, z: -6.99}
-  m_LocalScale: {x: 1.0000001, y: 1, z: 3.5863204}
+  m_LocalRotation: {x: -0, y: 0.70608306, z: -0, w: 0.70812905}
+  m_LocalPosition: {x: -5.7, y: 0, z: 5.65}
+  m_LocalScale: {x: 1.0000001, y: 1, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -67,7 +67,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -180,9 +180,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioS: {fileID: 82502141024932130}
-  hoverSnd: {fileID: 8300000, guid: 9311d1dfc5dd1e34689ba75a517ae252, type: 3}
-  barrageSnd: {fileID: 8300000, guid: c505ac0ef6f95b64b84911781a833db4, type: 3}
-  roadSnd: {fileID: 8300000, guid: 238d5afb6770b864fbff63158998d373, type: 3}
+  hoverSnd: {fileID: 8300000, guid: 0c60638d2a79b544584c8870cdd831b0, type: 3}
+  barrageSnd: {fileID: 8300000, guid: 993665b24a6918e4b8a1806da55fd01a, type: 3}
+  roadSnd: {fileID: 8300000, guid: 6044f4b8d39a03b4faceebacda039cd2, type: 3}
   cities:
   - {fileID: 0}
   - {fileID: 0}
@@ -198,7 +198,7 @@ LineRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1722237021405838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -278,5 +278,5 @@ LineRenderer:
     alignment: 0
     textureMode: 0
     generateLightingData: 0
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
   m_Loop: 0

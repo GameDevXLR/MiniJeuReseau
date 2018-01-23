@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerNetworkManager : NetworkBehaviour  
 {
 	[SyncVar] string playerName;
-	public bool needDeleteOnLoad = true;
+	public bool needDeleteOnLoad = false;
 
 
 	// Use this for initialization
@@ -17,27 +17,36 @@ public class PlayerNetworkManager : NetworkBehaviour
 		{
 			Invoke( "ActuNameOnClient",1f);
 		}
+
 		if (!isLocalPlayer && !isServer) 
 		{
 			GameManager.instance.player1Name.text = playerName;
 		}
+
 		if (!isLocalPlayer && isServer) 
 		{
 			NetworkGameManager.instance.BeginTheGame();
 
 		}
+		needDeleteOnLoad = true;
 	}
 
 
 	void OnDisable()
 	{
 		if (needDeleteOnLoad) {
-			if (!isLocalPlayer) {
+			if (!isLocalPlayer && isServer) {
 				NATTraversal.NetworkManager.singleton.StopHost ();
 				if (NATTraversal.NetworkManager.singleton) {
-					Destroy (NATTraversal.NetworkManager.singleton.gameObject);
+					NATTraversal.NetworkManager.Shutdown ();
 				}
 			}
+			if (!isLocalPlayer && !isServer) 
+			{
+				NATTraversal.NetworkManager.singleton.StopClient ();
+
+			}
+			NATTraversal.NetworkManager.Shutdown ();
 		}
 	}
 

@@ -24,7 +24,7 @@ public class NetworkGameManager : NetworkBehaviour {
 	{
 		gingerPowerAI = true;
 		BeginTheGame ();
-		NATTraversal.NetworkManager.singleton.StopMatchMaker ();
+		NATTraversal.NetworkManager.singleton.matchMaker.SetMatchAttributes (NATTraversal.NetworkManager.singleton.matchInfo.networkId , false, 0, MonCul);
 
 	}
 
@@ -37,6 +37,11 @@ public class NetworkGameManager : NetworkBehaviour {
 		}
 		instance = this;
 	}
+
+    void  MonCul (bool success, string extendedInfo)
+    {
+    	
+    }
 	void Start()
 	{
 		if (SettingPlayer.instance.isSolo)

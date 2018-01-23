@@ -19,7 +19,7 @@ public class CityNeighborhood : MonoBehaviour
     public int nbrLink;
 
 	// Use this for initialization
-	void Awake () 
+	void Start () 
 	{
         motherCity = GetComponent<CityV2>();
         dangereousNeighB = new Dictionary<CityV2, int>();
