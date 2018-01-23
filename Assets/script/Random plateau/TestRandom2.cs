@@ -68,7 +68,7 @@ public class TestRandom2 : MonoBehaviour {
                 cities.Add(linkCity);
                 countVille++;
             }
-            linkController = createLine(city.gameObject, linkCity.gameObject);
+            linkController = createLine(city.gameObject, linkCity.gameObject, getRotationLink(link));
 
             city.neighboors.addCityLink(linkController, link);
             linkCity.neighboors.addCityLinkInverse(linkController, link);
@@ -124,6 +124,27 @@ public class TestRandom2 : MonoBehaviour {
         }
     }
 
+    public float getRotationLink(int link)
+    {
+        switch (link)
+        {
+            case 0:
+            case 4:
+                return 0;
+            case 2:
+            case 6:
+                return 90;
+            case 3:
+            case 7:
+                return -45;
+            case 1:
+            case 5:
+                return 45;
+            default:
+                return -1;
+        }
+    }
+
     public CityV2 CityIsExiting(int line, int column)
     {
         int i = 0;
@@ -134,15 +155,20 @@ public class TestRandom2 : MonoBehaviour {
         return (i != citiesEdge.Count) ? citiesEdge[i] : null;
     }
 
-    public LineController createLine(GameObject city, GameObject linkCity)
+    public LineController createLine(GameObject city, GameObject linkCity, float rotationY)
     {
         GameObject line = Instantiate(linePrefab);
         line.transform.SetParent(linesParent.transform);
+        line.transform.position = new Vector3((city.transform.position.x + linkCity.transform.position.x)/2, 0, (city.transform.position.z + linkCity.transform.position.z) / 2);
         LineRenderer lineRenderer = line.GetComponent<LineRenderer>();
         Vector3 posCity = city.transform.position;
         lineRenderer.SetPosition(0, posCity);
-
+        Quaternion rota = Quaternion.Euler(0, rotationY, 0);
+        line.transform.rotation = rota;
         lineRenderer.SetPosition(1, linkCity.transform.position);
+
+        line.GetComponent<BoxCollider>().size = new Vector3(line.GetComponent<BoxCollider>().size.x, line.GetComponent<BoxCollider>().size.y, 1);
+        line.GetComponent<BoxCollider>().center = new Vector3(0,0,0);
 
         line.GetComponent<LineController>().addCity(city.GetComponent<CityV2>(), linkCity.GetComponent<CityV2>());
 
