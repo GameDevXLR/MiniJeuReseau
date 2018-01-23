@@ -30,6 +30,8 @@ public class ExampleNetworkManager : NATTraversal.NetworkManager
 	public AudioClip clic1Snd;
 	public AudioClip startGameSnd;
 
+
+
 	public void JoinOrCreateOnlineGame()
 	{
 		GetComponent<AudioSource> ().PlayOneShot (clic1Snd);

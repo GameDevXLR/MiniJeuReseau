@@ -93,8 +93,8 @@ public class LineController : NetworkBehaviour {
 
 	void OnMouseExit()
 	{
-		audioS.Stop ();
 		if (!isModified) {
+			audioS.Stop ();
 			
 			GameManager.instance.ChangeCursor (false);
 			lineR.material = matNormal;

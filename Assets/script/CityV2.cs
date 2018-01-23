@@ -27,6 +27,8 @@ public class CityV2 : NetworkBehaviour {
     public int column = 0;
     public int nbreLink = 0;
 
+	public GameObject plus1PartSystem;
+	public GameObject less1PartSystem;
 
     private void OnMouseDown()
 	{
@@ -45,6 +47,19 @@ public class CityV2 : NetworkBehaviour {
 		}
 	}
 
+	public void PlayPartEffect(bool won)
+	{
+		if (won) {
+			GameObject go = GameObject.Instantiate (plus1PartSystem, transform);
+			go.transform.localPosition = Vector3.zero;
+
+		} else 
+		{
+			GameObject go = GameObject.Instantiate (less1PartSystem, transform);
+			go.transform.localPosition = Vector3.zero;
+		}
+	}
+
 	public void CaptureThisCity()
 	{
 		isP1Turn = NetworkGameManager.instance.isPlayer1Turn;
@@ -60,13 +75,22 @@ public class CityV2 : NetworkBehaviour {
 		isTaken = true;
 		if (wasP1Turn) 
 		{
+			if (isServer) {
+				PlayPartEffect (true);
+			} 
 			meshR.material =GameManager.instance.player1.material;
 			isP1 = true;
 			GameManager.instance.addCity(this);
 			GameManager.instance.AddPointP1 (false);
+
 		} 
 		else 
 		{
+			if (!isServer) 
+			{
+				PlayPartEffect (true);
+
+			}
 			meshR.material = GameManager.instance.player2.material;
 			isP1 = false;
 			GameManager.instance.addCity(this);
@@ -103,17 +127,19 @@ public class CityV2 : NetworkBehaviour {
 
             int cityP1 = (isP1) ? 1 : 0;
             int cityP2 = (isP1) ? 0 : 1;
-            foreach (CityV2 city in linkCities)
-            {
-                if (city.isP1)
-                {
-                    cityP1++;
-                }
-                else
-                {
-                    cityP2++;
-                } 
-            }
+			foreach (CityV2 city in linkCities) 
+			{
+				if (city.isTaken) 
+				{
+					if (city.isP1) 
+					{
+						cityP1++;
+					} else 
+					{
+						cityP2++;
+					} 
+				}
+			}
             if(cityP1>cityP2 && !isP1)
             {
 				meshR.material = GameManager.instance.player1.material;
@@ -124,7 +150,16 @@ public class CityV2 : NetworkBehaviour {
 //                GameManager.instance.setPoint(+1, true);
 //                GameManager.instance.setPoint(-1, false);
                 isP1 = true;
+				if (isServer) 
+				{
+					PlayPartEffect (true);
 
+				}
+				if (!isServer) 
+				{
+					PlayPartEffect (false);
+
+				}
                 foreach (CityV2 city in linkCities)
                 {
                     city.checkAppartenance();
@@ -140,6 +175,16 @@ public class CityV2 : NetworkBehaviour {
 //                GameManager.instance.setPoint(-1, true);
 //                GameManager.instance.setPoint(+1, false);
                 isP1 = false;
+				if (isServer) 
+				{
+					PlayPartEffect (false);
+
+				}
+				if (!isServer) 
+				{
+					PlayPartEffect (true);
+
+				}
                 foreach (CityV2 city in linkCities)
                 {
                     city.checkAppartenance();

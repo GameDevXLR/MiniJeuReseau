@@ -20,8 +20,12 @@ public class GameManager : MonoBehaviour {
 	public Text player1Name;
 	public Text player2Name;
 	public Text endGameDisplayTxt;
+
 	public GameObject localPlayerObj;
 	public GameObject backToMenuEndGameButton;
+	public GameObject victoryDisplayObj;
+	public GameObject defeatDisplayObj;
+
 
     public int pointsP1 = 0;
 	public int pointsP2 = 0;
@@ -56,6 +60,9 @@ public class GameManager : MonoBehaviour {
 	public Animator endGameAnimator;
 	public GingerPowerAI GPAI;
 
+	public Animator scoreP1Anim;
+	public Animator scoreP2Anim;
+
     public bool isgenerate;
 
     private void Awake()
@@ -65,6 +72,7 @@ public class GameManager : MonoBehaviour {
             instance = this;
             positionPossible += cities.Length + lines.Length;
 			positionsLeftCount.text = positionPossible.ToString ();
+
         }
         else
             Destroy(gameObject);
@@ -218,10 +226,13 @@ public class GameManager : MonoBehaviour {
 		if (wasOwned) 
 		{
 			pointsP2--;
+			scoreP2Anim.Play ("ScoreAnim");
+
 			textScoreP2.text = pointsP2.ToString();
 
 		}
 		pointsP1++;
+		scoreP1Anim.Play ("ScoreAnim");
 		textScoreP1.text = pointsP1.ToString();
 	}
 
@@ -230,10 +241,14 @@ public class GameManager : MonoBehaviour {
 		if (wasOwned) 
 		{
 			pointsP1--;
+			scoreP1Anim.Play ("ScoreAnim");
+
 			textScoreP1.text = pointsP1.ToString();
 
 		}
 		pointsP2++;
+		scoreP2Anim.Play ("ScoreAnim");
+
 		textScoreP2.text = pointsP2.ToString();
 	}
 	public void ChangeTurn()
@@ -274,12 +289,14 @@ public class GameManager : MonoBehaviour {
 			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
-				endGameDisplayTxt.text = "Victory";
+//				endGameDisplayTxt.text = "Victory";
+				victoryDisplayObj.SetActive(true);
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
-				endGameDisplayTxt.text = "Defeat";
+//				endGameDisplayTxt.text = "Defeat";
+				defeatDisplayObj.SetActive(true);
 
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
@@ -288,13 +305,15 @@ public class GameManager : MonoBehaviour {
 			if (!localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
-				endGameDisplayTxt.text = "Victory";
+//				endGameDisplayTxt.text = "Victory";
+				victoryDisplayObj.SetActive(true);
 
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
-				endGameDisplayTxt.text = "Defeat";
+//				endGameDisplayTxt.text = "Defeat";
+				defeatDisplayObj.SetActive(true);
 
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
@@ -318,7 +337,7 @@ public class GameManager : MonoBehaviour {
 		StopCoroutine ("EndOfGame");
 
 		NATTraversal.NetworkManager.singleton.StopHost();
-		Destroy (NATTraversal.NetworkManager.singleton.gameObject);
+		NATTraversal.NetworkManager.Shutdown ();
 
 	}
 
