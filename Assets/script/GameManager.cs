@@ -96,7 +96,18 @@ public class GameManager : MonoBehaviour {
 		//ajouter ici le son victoire defaite and co aussi.
 	}
 
-
+	public void CheckIfGameOver()
+	{
+		Debug.Log ("don");
+		for (int i = 0; i < cities.Length; i++) 
+		{
+			if (!cities [i].neighboors.isSafe) 
+			{
+				return;
+			}			
+		}
+		FinishTheGame ();
+	}
 	public void ShowTheLines()
 	{
 		foreach (var l in lines) 
@@ -281,47 +292,48 @@ public class GameManager : MonoBehaviour {
 		PlayEndGamePanelAnimation ();
 		PlayerNetworkManager[] players = GameObject.FindObjectsOfType <PlayerNetworkManager> ()as PlayerNetworkManager[];
 		if (pointsP1 > pointsP2) {
-			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer  ) {
+			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
 //				endGameDisplayTxt.text = "Victory";
-				victoryDisplayObj.SetActive(true);
+				victoryDisplayObj.SetActive (true);
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
 //				endGameDisplayTxt.text = "Defeat";
-				defeatDisplayObj.SetActive(true);
+				defeatDisplayObj.SetActive (true);
 
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
-		} else 
-		{
+		} else {
 			if (!localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
 				int i = PlayerPrefs.GetInt ("WINS");
 //				endGameDisplayTxt.text = "Victory";
-				victoryDisplayObj.SetActive(true);
+				victoryDisplayObj.SetActive (true);
 
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
 				int i = PlayerPrefs.GetInt ("LOSSES");
 //				endGameDisplayTxt.text = "Defeat";
-				defeatDisplayObj.SetActive(true);
+				defeatDisplayObj.SetActive (true);
 
 				PlayerPrefs.SetInt ("LOSSES", i + 1);
 			}
 		}
 		backToMenuEndGameButton.SetActive (true);
-		StartCoroutine( ShowInfo ("The Game will restart in 10 seconds...", 10f));
+		StartCoroutine (ShowInfo ("The Game will restart in 10 seconds...", 10f));
 		yield return new WaitForSecondsRealtime (10f);
-		foreach (var player in players) 
-		{
+		foreach (var player in players) {
 			player.needDeleteOnLoad = false;
 			
 		}
 		yield return new WaitForSecondsRealtime (.3f);
-		NATTraversal.NetworkManager.singleton.ServerChangeScene ("Plateau1");	}
+		if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
+			NATTraversal.NetworkManager.singleton.ServerChangeScene ("Plateau1");	
+		}
+	}
 
 	public void GoBackToMenu()
 	{

@@ -4,8 +4,11 @@ using UnityEngine;
 using System.Linq;
 public class CityNeighborhood : MonoBehaviour 
 {
+	int potentialAttack;
+
 	CityV2 motherCity;
 	int tries;
+	public bool isSafe;
 	public LineController currentTargetForDefenseMove;
 	public LineController currentTargetForAttackMove;
 	public LineController currentTargetForFriendlyCityLinkMove;
@@ -31,6 +34,8 @@ public class CityNeighborhood : MonoBehaviour
         }
 	}
 
+
+
     public void procedureStart()
     {
         foreach (var lineC in allConnections)
@@ -38,6 +43,34 @@ public class CityNeighborhood : MonoBehaviour
             addCityInConnectedCities(lineC);
         }
     }
+
+	public bool IsThisCitySafe()
+	{
+
+		foreach (var c in connectedCities) 
+		{
+			if (motherCity.isP1) 
+			{
+				if (!c.Key.isP1 && c.Key.isTaken && !c.Value.isModified || !c.Key.isTaken && !c.Value.isModified) 
+				{
+					potentialAttack++;
+				}
+			} else 
+			{
+				if (c.Key.isP1 && c.Key.isTaken && !c.Value.isModified || !c.Key.isTaken && !c.Value.isModified) 
+				{
+					potentialAttack++;
+				}
+			}
+		}
+
+		if (potentialAttack + motherCity.attackStr > motherCity.defenseStr) 
+		{
+			return false;
+		}
+		return true;
+
+	}
 
     public void addCityInConnectedCities(LineController lineC)
     {
@@ -164,6 +197,9 @@ public class CityNeighborhood : MonoBehaviour
 				}
 			}
 		}
+		potentialAttack = 0;
+
+		isSafe = IsThisCitySafe ();
 		if (CheckIfDanger ()) 
 		{
 

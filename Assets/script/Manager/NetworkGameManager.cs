@@ -112,7 +112,7 @@ public class NetworkGameManager : NetworkBehaviour {
 		isPlayer1Turn = !isPlayer1Turn;
 		GameManager.instance.isNotP1Turn = !isPlayer1Turn;
 		GameManager.instance.ChangeCursor (false);
-
+		GameManager.instance.CheckIfGameOver ();
 		if (!gingerPowerAI) {
 		    if (isPlayer1Turn) {
 			
