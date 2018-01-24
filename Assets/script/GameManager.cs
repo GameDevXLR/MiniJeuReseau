@@ -280,13 +280,8 @@ public class GameManager : MonoBehaviour {
 	{
 		PlayEndGamePanelAnimation ();
 		PlayerNetworkManager[] players = GameObject.FindObjectsOfType <PlayerNetworkManager> ()as PlayerNetworkManager[];
-		foreach (var player in players) 
-		{
-			player.needDeleteOnLoad = false;
-			
-		}
-		if (citiesPlayer1.Count > citiesPlayer2.Count) {
-			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
+		if (pointsP1 > pointsP2) {
+			if (localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer  ) {
 				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
 //				endGameDisplayTxt.text = "Victory";
@@ -303,7 +298,6 @@ public class GameManager : MonoBehaviour {
 		} else 
 		{
 			if (!localPlayerObj.GetComponent<PlayerNetworkManager> ().isServer) {
-				//si t'es le serveur et que t'as plus de villes : t'as gagné!
 				int i = PlayerPrefs.GetInt ("WINS");
 //				endGameDisplayTxt.text = "Victory";
 				victoryDisplayObj.SetActive(true);
@@ -321,6 +315,12 @@ public class GameManager : MonoBehaviour {
 		backToMenuEndGameButton.SetActive (true);
 		StartCoroutine( ShowInfo ("The Game will restart in 10 seconds...", 10f));
 		yield return new WaitForSecondsRealtime (10f);
+		foreach (var player in players) 
+		{
+			player.needDeleteOnLoad = false;
+			
+		}
+		yield return new WaitForSecondsRealtime (.3f);
 		NATTraversal.NetworkManager.singleton.ServerChangeScene ("Plateau1");	}
 
 	public void GoBackToMenu()

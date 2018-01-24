@@ -34,7 +34,6 @@ public class SettingPlayer : MonoBehaviour {
 		if (!startMusic) 
 		{
 			ExampleNetworkManager.singleton.transform.GetChild(0).GetComponent<AudioSource> ().enabled = true;
-			Debug.Log (ExampleNetworkManager.singleton.transform);
 			startMusic = true;
 		}
 	}
