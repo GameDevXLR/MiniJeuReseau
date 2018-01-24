@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject backToMenuEndGameButton;
 	public GameObject victoryDisplayObj;
 	public GameObject defeatDisplayObj;
+	public GameObject victoryEffect;
 
 
     public int pointsP1 = 0;
@@ -297,6 +298,7 @@ public class GameManager : MonoBehaviour {
 				int i = PlayerPrefs.GetInt ("WINS");
 //				endGameDisplayTxt.text = "Victory";
 				victoryDisplayObj.SetActive (true);
+				victoryEffect.SetActive (true);
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {
 				//t'as perdu :(
@@ -311,6 +313,7 @@ public class GameManager : MonoBehaviour {
 				int i = PlayerPrefs.GetInt ("WINS");
 //				endGameDisplayTxt.text = "Victory";
 				victoryDisplayObj.SetActive (true);
+				victoryEffect.SetActive (true);
 
 				PlayerPrefs.SetInt ("WINS", i + 1);
 			} else {

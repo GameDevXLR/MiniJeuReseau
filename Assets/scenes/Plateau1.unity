@@ -2832,11 +2832,11 @@ Prefab:
     - target: {fileID: 95056769504647638, guid: d65178d874bdee24791132b04c74c04d,
         type: 2}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1854584852894104, guid: d65178d874bdee24791132b04c74c04d, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1336421175127390, guid: d65178d874bdee24791132b04c74c04d, type: 2}
       propertyPath: m_IsActive
@@ -3699,6 +3699,11 @@ Prefab:
       propertyPath: defeatDisplayObj
       value: 
       objectReference: {fileID: 1626286490}
+    - target: {fileID: 114983824203730820, guid: b7d127f83edef3344a6500b27fd8e863,
+        type: 2}
+      propertyPath: victoryEffect
+      value: 
+      objectReference: {fileID: 1611418321}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b7d127f83edef3344a6500b27fd8e863, type: 2}
   m_IsPrefabParent: 0
@@ -5715,9 +5720,48 @@ Prefab:
       propertyPath: InitialModule.startSize.scalar
       value: 0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 198424100896078876, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 50.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198728015210291456, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 30.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198043152230823488, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 30.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198424100896078876, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 50.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198728015210291456, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 30.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 198043152230823488, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+        type: 2}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
+      value: 30.0000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1396719959541492, guid: ca92ecc80d3501c4c83447f7c88f9f7f, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca92ecc80d3501c4c83447f7c88f9f7f, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1611418321 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1396719959541492, guid: ca92ecc80d3501c4c83447f7c88f9f7f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1611418320}
 --- !u!1 &1626286490 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1336421175127390, guid: d65178d874bdee24791132b04c74c04d,
